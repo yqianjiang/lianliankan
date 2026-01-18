@@ -31,58 +31,56 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
   if (status !== GameStatus.WON && status !== GameStatus.LOST) return null;
 
   return (
-    <div className="absolute inset-0 z-[60] flex items-center justify-center bg-white/40 backdrop-blur-md p-4 animate-in fade-in duration-300">
-       <div className="bg-white p-6 sm:p-10 rounded-[2rem] shadow-2xl border border-white flex flex-col items-center text-center max-w-xs w-full relative">
-          {isNewRecord && (
-            <div className="absolute -top-3 -right-3 bg-yellow-400 text-yellow-900 px-3 py-1.5 rounded-xl font-black text-[10px] shadow-lg rotate-12 flex items-center gap-1 animate-bounce">
-              <Medal size={12} /> 新纪录!
-            </div>
-          )}
+    <div className="bg-white p-6 sm:p-10 rounded-4xl shadow-2xl border border-white flex flex-col items-center text-center max-w-xs w-full relative min-w-90">
+      {isNewRecord && (
+        <div className="absolute -top-3 -right-3 bg-yellow-400 text-yellow-900 px-3 py-1.5 rounded-xl font-black text-[10px] shadow-lg rotate-12 flex items-center gap-1 animate-bounce">
+          <Medal size={12} /> 新纪录!
+        </div>
+      )}
 
-          {status === GameStatus.WON ? (
-             <>
-              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
-                <Trophy className="text-yellow-600" size={36} />
-              </div>
-              <h2 className="text-2xl font-black text-slate-800 mb-1">大获全胜!</h2>
-              <div className="flex flex-col gap-1 mb-6">
-                <p className="text-slate-400 font-bold text-[10px] uppercase">耗时 {formatTime(levelTime - timeLeft)}</p>
-                <p className="text-indigo-600 font-black text-lg">得分: {score}</p>
-              </div>
-             </>
-          ) : (
-            <>
-              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-4">
-                <RotateCcw className="text-rose-600" size={36} />
-              </div>
-              <h2 className="text-2xl font-black text-slate-800 mb-2">时间到了!</h2>
-              <p className="text-slate-500 mb-6 font-medium italic text-xs">再试一次，禅师。</p>
-            </>
-          )}
-
-          <div className="w-full flex flex-col gap-2">
-            {status === GameStatus.WON && LEVELS.findIndex(l => l.id === currentLevel.id) < LEVELS.length - 1 && (
-              <button
-                onClick={onNextLevel}
-                className="w-full py-3 bg-indigo-600 text-white rounded-xl font-black text-base shadow-lg shadow-indigo-100 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
-              >
-                下一关 <ChevronRight size={18} />
-              </button>
-            )}
-            <button
-              onClick={onRestart}
-              className={`w-full py-3 rounded-xl font-black text-base transition-all active:scale-95 flex items-center justify-center gap-2 ${status === GameStatus.LOST ? 'bg-rose-600 text-white shadow-rose-100' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
-            >
-              再来一局
-            </button>
-            <button
-              onClick={onBackToMenu}
-              className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors mt-2"
-            >
-              返回主菜单
-            </button>
+      {status === GameStatus.WON ? (
+          <>
+          <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
+            <Trophy className="text-yellow-600" size={36} />
           </div>
-       </div>
+          <h2 className="text-2xl font-black text-slate-800 mb-1">大获全胜!</h2>
+          <div className="flex flex-col gap-1 mb-6">
+            <p className="text-slate-400 font-bold text-[10px] uppercase">耗时 {formatTime(levelTime - timeLeft)}</p>
+            <p className="text-indigo-600 font-black text-lg">得分: {score}</p>
+          </div>
+          </>
+      ) : (
+        <>
+          <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-4">
+            <RotateCcw className="text-rose-600" size={36} />
+          </div>
+          <h2 className="text-2xl font-black text-slate-800 mb-2">时间到了!</h2>
+          <p className="text-slate-500 mb-6 font-medium italic text-xs">再试一次，禅师。</p>
+        </>
+      )}
+
+      <div className="w-full flex flex-col gap-2">
+        {status === GameStatus.WON && LEVELS.findIndex(l => l.id === currentLevel.id) < LEVELS.length - 1 && (
+          <button
+            onClick={onNextLevel}
+            className="w-full py-3 bg-indigo-600 text-white rounded-xl font-black text-base shadow-lg shadow-indigo-100 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
+          >
+            下一关 <ChevronRight size={18} />
+          </button>
+        )}
+        <button
+          onClick={onRestart}
+          className={`w-full py-3 rounded-xl font-black text-base transition-all active:scale-95 flex items-center justify-center gap-2 ${status === GameStatus.LOST ? 'bg-rose-600 text-white shadow-rose-100' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+        >
+          再来一局
+        </button>
+        <button
+          onClick={onBackToMenu}
+          className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors mt-2"
+        >
+          返回主菜单
+        </button>
+      </div>
     </div>
   );
 };

@@ -11,7 +11,7 @@ const PauseScreen: React.FC<PauseScreenProps> = ({ status, onResume }) => {
   if (status !== GameStatus.PAUSED) return null;
 
   return (
-    <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-xl transition-all">
+    <div className="absolute inset-0 z-50 flex rounded-3xl items-center justify-center bg-white/70 backdrop-blur-xl transition-all">
       <div className="flex flex-col items-center text-center">
         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl mb-6 text-indigo-500 animate-pulse border border-slate-100">
           <Pause size={36} fill="currentColor" />

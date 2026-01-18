@@ -22,7 +22,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`${gameLogic.theme.bgColor} flex flex-col items-center p-2 sm:p-4 transition-colors duration-500 overflow-auto`}>
+    <div className={`${gameLogic.theme.bgColor} min-h-150 flex flex-col items-center p-2 sm:p-4 transition-colors duration-500 overflow-auto`}>
       <Header
         status={gameLogic.status}
         score={gameLogic.score}
@@ -34,7 +34,7 @@ const App: React.FC = () => {
       />
 
       <div className="relative flex-1 w-full flex items-center justify-center p-1 sm:p-4">
-        {gameLogic.status === 'IDLE' && (
+        {gameLogic.status === 'IDLE' ? (
           <StartScreen
             theme={gameLogic.theme}
             stats={gameLogic.stats}
@@ -42,36 +42,39 @@ const App: React.FC = () => {
             onLevelSelect={handleLevelSelect}
             formatTime={gameLogic.formatTime}
           />
-        )}
+        ) : <>
+        <div className="relative p-1.5 sm:p-5 bg-slate-200/20 rounded-3xl sm:rounded-[2.5rem] border-2 sm:border-4 border-white/60 shadow-inner overflow-x-auto shrink-0 mx-3">
+          <GameOverScreen
+            status={gameLogic.status}
+            currentLevel={gameLogic.currentLevel}
+            score={gameLogic.score}
+            timeLeft={gameLogic.timeLeft}
+            levelTime={gameLogic.currentLevel.time}
+            isNewRecord={gameLogic.isNewRecord}
+            onNextLevel={gameLogic.handleNextLevel}
+            onRestart={() => gameLogic.initGame()}
+            onBackToMenu={() => gameLogic.setStatus('IDLE')}
+            formatTime={gameLogic.formatTime}
+          />
+            <PauseScreen
+              status={gameLogic.status}
+              onResume={() => gameLogic.setStatus('PLAYING')}
+            />
 
-        <GameOverScreen
-          status={gameLogic.status}
-          currentLevel={gameLogic.currentLevel}
-          score={gameLogic.score}
-          timeLeft={gameLogic.timeLeft}
-          levelTime={gameLogic.currentLevel.time}
-          isNewRecord={gameLogic.isNewRecord}
-          onNextLevel={gameLogic.handleNextLevel}
-          onRestart={() => gameLogic.initGame()}
-          onBackToMenu={() => gameLogic.setStatus('IDLE')}
-          formatTime={gameLogic.formatTime}
-        />
+            <GameBoard
+              grid={gameLogic.grid}
+              status={gameLogic.status}
+              selected={gameLogic.selected}
+              hintedPair={gameLogic.hintedPair}
+              wrongPair={gameLogic.wrongPair}
+              connection={gameLogic.connection}
+              isMobile={gameLogic.isMobile}
+              onTileClick={gameLogic.handleTileClick}
+            />
+         </div>
+        </>
+        }
 
-        <PauseScreen
-          status={gameLogic.status}
-          onResume={() => gameLogic.setStatus('PLAYING')}
-        />
-
-        <GameBoard
-          grid={gameLogic.grid}
-          status={gameLogic.status}
-          selected={gameLogic.selected}
-          hintedPair={gameLogic.hintedPair}
-          wrongPair={gameLogic.wrongPair}
-          connection={gameLogic.connection}
-          isMobile={gameLogic.isMobile}
-          onTileClick={gameLogic.handleTileClick}
-        />
       </div>
 
       <Footer
