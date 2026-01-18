@@ -35,7 +35,6 @@ export interface Level {
   cols: number;
   time: number;
   uniqueTiles: number;
-  difficulty: 'Easy' | 'Medium' | 'Hard' | 'Zen';
 }
 
 export interface ConnectionPath {

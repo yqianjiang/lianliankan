@@ -22,7 +22,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`fixed inset-0 ${gameLogic.theme.bgColor} flex flex-col items-center p-2 sm:p-4 transition-colors duration-500 overflow-auto`}>
+    <div className={`${gameLogic.theme.bgColor} flex flex-col items-center p-2 sm:p-4 transition-colors duration-500 overflow-auto`}>
       <Header
         status={gameLogic.status}
         score={gameLogic.score}

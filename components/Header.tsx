@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({
         <div className="flex flex-col">
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">得分</span>
           <span className="text-xl sm:text-2xl font-black text-slate-800 leading-none">{score}</span>
-          <span className="text-[8px] font-medium text-slate-500">{currentLevel.difficulty}</span>
+          <span className="text-[8px] font-medium text-slate-500">{currentLevel.name}</span>
         </div>
 
         <div className="flex flex-col items-center">

@@ -2,12 +2,23 @@
 
 @tailwind utilities;
 
+:root {
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --bg-zen: #fffaf5;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --header-bg: rgba(255, 255, 255, 0.8);
+}
+
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
-    overflow: hidden;
+    color: var(--text-main);
+    background-color: var(--bg-zen);
 }
+
 @keyframes fade-out {
     from { opacity: 1; transform: scale(1); }
     to { opacity: 0; transform: scale(1.2); }

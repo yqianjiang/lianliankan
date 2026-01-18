@@ -2,10 +2,10 @@
 import { Theme, Level } from './types';
 
 export const LEVELS: Level[] = [
-  { id: 'l1', name: '入门级', rows: 6, cols: 4, time: 120, uniqueTiles: 8, difficulty: 'Easy' },
-  { id: 'l2', name: '进阶级', rows: 8, cols: 6, time: 180, uniqueTiles: 12, difficulty: 'Medium' },
-  { id: 'l3', name: '大师级', rows: 10, cols: 6, time: 240, uniqueTiles: 16, difficulty: 'Hard' },
-  { id: 'l4', name: '禅定级', rows: 12, cols: 8, time: 300, uniqueTiles: 24, difficulty: 'Zen' },
+  { id: 'l1', name: '入门级', rows: 6, cols: 4, time: 120, uniqueTiles: 8, },
+  { id: 'l2', name: '进阶级', rows: 8, cols: 6, time: 180, uniqueTiles: 12, },
+  { id: 'l3', name: '大师级', rows: 10, cols: 6, time: 240, uniqueTiles: 16, },
+  { id: 'l4', name: '禅定级', rows: 12, cols: 8, time: 300, uniqueTiles: 24, },
 ];
 
 export const THEMES: Theme[] = [
@@ -33,8 +33,16 @@ export const THEMES: Theme[] = [
     name: '精致萌宠',
     type: 'emoji',
     items: ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🐔', '🐴', '🐑', '🐘', '🐧', '🦆', '🦉', '🦇', '🐺'],
-    bgColor: 'bg-orange-50',
-    accentColor: 'orange'
+    bgColor: 'bg-indigo-50',
+    accentColor: 'indigo'
+  },
+  {
+    id: 't4',
+    name: '禅意植物',
+    type: 'emoji',
+    items: ['🌿', '🌵', '🌴', '🌳', '🌲', '🌱', '🍃', '🍂', '🍁', '🍀', '🎋', '🎍', '🌸', '🌼', '🌻', '🌞', '🌙', '⭐', '☁️', '🌊', '🏔️', '🌋', '🏜️', '🏝️'],
+    bgColor: 'bg-slate-50',
+    accentColor: 'slate'
   },
   // {
   //   id: 't3',
