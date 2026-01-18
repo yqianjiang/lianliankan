@@ -2,7 +2,12 @@
 import React from 'react';
 import { Theme } from './types';
 import { useGameLogic } from './hooks/useGameLogic';
-import { Header, StartScreen, GameOverScreen, PauseScreen, GameBoard, Footer } from './components';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import GameBoard from './components/GameBoard';
+import StartScreen from './components/StartScreen';
+import PauseScreen from './components/PauseScreen';
+import GameOverScreen from './components/GameOverScreen';
 
 const App: React.FC = () => {
   const gameLogic = useGameLogic();
@@ -17,7 +22,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`fixed inset-0 ${gameLogic.theme.bgColor} flex flex-col items-center p-2 sm:p-4 transition-colors duration-500 overflow-hidden`}>
+    <div className={`fixed inset-0 ${gameLogic.theme.bgColor} flex flex-col items-center p-2 sm:p-4 transition-colors duration-500 overflow-auto`}>
       <Header
         status={gameLogic.status}
         score={gameLogic.score}
@@ -28,7 +33,7 @@ const App: React.FC = () => {
         formatTime={gameLogic.formatTime}
       />
 
-      <div className="relative flex-1 w-full flex items-center justify-center p-1 sm:p-4 overflow-hidden">
+      <div className="relative flex-1 w-full flex items-center justify-center p-1 sm:p-4">
         {gameLogic.status === 'IDLE' && (
           <StartScreen
             theme={gameLogic.theme}

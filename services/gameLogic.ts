@@ -56,7 +56,7 @@ export const findPath = (grid: (TileData | null)[][], p1: Position, p2: Position
       const next = { x: pos.x + d.x, y: pos.y + d.y };
       const nextTurns = d.dir === dir ? turns : turns + 1;
 
-      if (nextTurns > 3) continue;
+      if (nextTurns > 2) continue;
       if (next.x < 0 || next.x >= cols || next.y < 0 || next.y >= rows) continue;
 
       if (isSamePosition(next, p2)) {

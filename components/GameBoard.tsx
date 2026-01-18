@@ -24,7 +24,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   if (status !== GameStatus.PLAYING && status !== GameStatus.PAUSED) return null;
 
   return (
-    <div className="relative p-1.5 sm:p-5 bg-slate-200/20 rounded-[1.5rem] sm:rounded-[2.5rem] border-2 sm:border-4 border-white/60 shadow-inner max-w-full max-h-full">
+    <div className="relative p-1.5 sm:p-5 bg-slate-200/20 rounded-[1.5rem] sm:rounded-[2.5rem] border-2 sm:border-4 border-white/60 shadow-inner">
       <div
         className="grid gap-0.5 sm:gap-2"
         style={{
