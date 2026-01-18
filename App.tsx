@@ -28,6 +28,7 @@ const App: React.FC = () => {
         score={gameLogic.score}
         timeLeft={gameLogic.timeLeft}
         currentLevel={gameLogic.currentLevel}
+        comboCount={gameLogic.comboCount}
         onPauseToggle={() => gameLogic.setStatus(gameLogic.status === 'PAUSED' ? 'PLAYING' : 'PAUSED')}
         onSettings={() => gameLogic.setStatus('IDLE')}
         formatTime={gameLogic.formatTime}
@@ -55,6 +56,7 @@ const App: React.FC = () => {
               hintedPair={gameLogic.hintedPair}
               wrongPair={gameLogic.wrongPair}
               connection={gameLogic.connection}
+              comboCount={gameLogic.comboCount}
               onTileClick={gameLogic.handleTileClick}
             />
          </div> : (
@@ -64,6 +66,8 @@ const App: React.FC = () => {
             score={gameLogic.score}
             timeLeft={gameLogic.timeLeft}
             levelTime={gameLogic.currentLevel.time}
+            hints={gameLogic.hints}
+            shuffles={gameLogic.shuffles}
             isNewRecord={gameLogic.isNewRecord}
             onNextLevel={gameLogic.handleNextLevel}
             onRestart={() => gameLogic.initGame()}

@@ -4,6 +4,7 @@ import { LEVELS, INITIAL_HINTS, INITIAL_SHUFFLES, THEMES } from '../constants';
 import { findPath, findAvailablePair, shuffleArray, isSamePosition } from '../services/gameLogic';
 
 const STORAGE_KEY = 'zen_match_stats';
+const COMBO_WINDOW = 3000;
 
 export const useGameLogic = () => {
   const [grid, setGrid] = useState<(TileData | null)[][]>([]);
@@ -18,8 +19,10 @@ export const useGameLogic = () => {
   const [connection, setConnection] = useState<ConnectionPath | null>(null);
   const [hintedPair, setHintedPair] = useState<[Position, Position] | null>(null);
   const [wrongPair, setWrongPair] = useState<[Position, Position] | null>(null);
-  const [stats, setStats] = useState<GameStats>({ totalGames: 0, bestTimes: {} });
+  const [stats, setStats] = useState<GameStats>({ totalGames: 0, highScores: {} });
   const [isNewRecord, setIsNewRecord] = useState(false);
+  const [comboCount, setComboCount] = useState(0);
+  const [lastMatchTime, setLastMatchTime] = useState(0);
 
   const timerRef = useRef<number | null>(null);
 
@@ -28,7 +31,11 @@ export const useGameLogic = () => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        setStats(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        setStats({
+          totalGames: parsed.totalGames || 0,
+          highScores: parsed.highScores || {}
+        });
       } catch (e) {
         console.error("Failed to parse stats", e);
       }
@@ -81,6 +88,8 @@ export const useGameLogic = () => {
     setConnection(null);
     setHintedPair(null);
     setIsNewRecord(false);
+    setComboCount(0);
+    setLastMatchTime(0);
   }, [currentLevel, theme]);
 
   // Timer Effect
@@ -104,12 +113,17 @@ export const useGameLogic = () => {
   // Statistics Update
   useEffect(() => {
     if (status === GameStatus.WON) {
-      const timeTaken = currentLevel.time - timeLeft;
-      const currentBest = stats.bestTimes[currentLevel.id];
+      const levelIdx = LEVELS.findIndex(l => l.id === currentLevel.id) + 1;
+      const propsBonus = (hints + shuffles) * 50;
+      const timeBonus = timeLeft * 10;
+      const levelBonus = levelIdx * 100;
+      const finalScore = score + propsBonus + timeBonus + levelBonus;
+
+      const currentBest = stats.highScores[currentLevel.id] || 0;
       const newStats = { ...stats, totalGames: stats.totalGames + 1 };
 
-      if (currentBest === undefined || timeTaken < currentBest) {
-        newStats.bestTimes[currentLevel.id] = timeTaken;
+      if (finalScore > currentBest) {
+        newStats.highScores[currentLevel.id] = finalScore;
         setIsNewRecord(true);
       }
       setStats(newStats);
@@ -120,6 +134,16 @@ export const useGameLogic = () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(newStats));
     }
   }, [status]);
+
+  // Combo Reset Effect
+  useEffect(() => {
+    if (comboCount > 0) {
+      const timer = setTimeout(() => {
+        setComboCount(0);
+      }, COMBO_WINDOW);
+      return () => clearTimeout(timer);
+    }
+  }, [comboCount, lastMatchTime]);
 
   const handleTileClick = (pos: Position) => {
     if (status !== GameStatus.PLAYING || wrongPair) return;
@@ -141,7 +165,22 @@ export const useGameLogic = () => {
       const path = findPath(grid, selected, pos);
       if (path) {
         setConnection({ points: path });
-        setScore(prev => prev + 10);
+        
+        // Scoring logic
+        const now = Date.now();
+        let newComboCount = 1;
+        
+        if (now - lastMatchTime <= COMBO_WINDOW) {
+          newComboCount = comboCount + 1;
+        }
+        
+        setComboCount(newComboCount);
+        setLastMatchTime(now);
+        
+        const basePoints = 10;
+        const comboBonus = newComboCount > 1 ? (newComboCount - 1) * 20 : 0;
+        setScore(prev => prev + basePoints + comboBonus);
+        
         setHintedPair(null);
 
         setTimeout(() => {
@@ -236,6 +275,7 @@ export const useGameLogic = () => {
     wrongPair,
     stats,
     isNewRecord,
+    comboCount,
 
     // Actions
     setTheme,

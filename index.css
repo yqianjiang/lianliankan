@@ -36,3 +36,24 @@ body {
 .tile-wrong {
     animation: shake 0.4s ease-in-out;
 }
+
+@keyframes combo-float {
+    0% { transform: translateY(20px) scale(0.5); opacity: 0; }
+    15% { transform: translateY(0) scale(1.2); opacity: 1; }
+    100% { transform: translateY(-100px) scale(1); opacity: 0; }
+}
+
+.animate-combo {
+    animation: combo-float 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes rainbow-glow {
+    0% { stroke: #6366f1; }
+    33% { stroke: #ec4899; }
+    66% { stroke: #eab308; }
+    100% { stroke: #6366f1; }
+}
+
+.animate-rainbow {
+    animation: rainbow-glow 1s linear infinite;
+}

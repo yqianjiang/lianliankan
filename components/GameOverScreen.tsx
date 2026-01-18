@@ -9,6 +9,8 @@ interface GameOverScreenProps {
   score: number;
   timeLeft: number;
   levelTime: number;
+  hints: number;
+  shuffles: number;
   isNewRecord: boolean;
   onNextLevel: () => void;
   onRestart: () => void;
@@ -22,6 +24,8 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
   score,
   timeLeft,
   levelTime,
+  hints,
+  shuffles,
   isNewRecord,
   onNextLevel,
   onRestart,
@@ -30,25 +34,57 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
 }) => {
   if (status !== GameStatus.WON && status !== GameStatus.LOST) return null;
 
+  const levelIdx = LEVELS.findIndex(l => l.id === currentLevel.id) + 1;
+  const propsCount = hints + shuffles;
+  const propsBonus = propsCount * 50;
+  const timeBonus = timeLeft * 10;
+  const levelReward = levelIdx * 100;
+  const finalScore = score + propsBonus + timeBonus + levelReward;
+
   return (
     <div className="bg-white p-6 sm:p-10 rounded-4xl shadow-2xl border border-white flex flex-col items-center text-center max-w-xs w-full relative min-w-90">
       {isNewRecord && (
-        <div className="absolute -top-3 -right-3 bg-yellow-400 text-yellow-900 px-3 py-1.5 rounded-xl font-black text-[10px] shadow-lg rotate-12 flex items-center gap-1 animate-bounce">
+        <div className="absolute -top-3 -right-3 bg-yellow-400 text-yellow-900 px-3 py-1.5 rounded-xl font-black text-xs shadow-lg rotate-12 flex items-center gap-1 animate-bounce z-10">
           <Medal size={12} /> 新纪录!
         </div>
       )}
 
       {status === GameStatus.WON ? (
-          <>
+        <>
           <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
             <Trophy className="text-yellow-600" size={36} />
           </div>
           <h2 className="text-2xl font-black text-slate-800 mb-1">大获全胜!</h2>
-          <div className="flex flex-col gap-1 mb-6">
-            <p className="text-slate-400 font-bold text-[10px] uppercase">耗时 {formatTime(levelTime - timeLeft)}</p>
-            <p className="text-indigo-600 font-black text-lg">得分: {score}</p>
+          
+          <div className="w-full space-y-2 mb-6 text-left px-2">
+            <div className="flex justify-between items-center">
+              <span className="text-slate-400 font-bold text-xs uppercase tracking-wider">本关得分</span>
+              <span className="text-slate-700 font-bold text-sm">{score}</span>
+            </div>
+            
+            <div className="flex justify-between items-center">
+              <span className="text-slate-400 font-bold text-xs uppercase tracking-wider">剩余道具 ({propsCount})</span>
+              <span className="text-slate-700 font-bold text-sm">+{propsBonus}</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-slate-400 font-bold text-xs uppercase tracking-wider">剩余时间 ({timeLeft}s)</span>
+              <span className="text-slate-700 font-bold text-sm">+{timeBonus}</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-slate-400 font-bold text-xs uppercase tracking-wider">过关奖励</span>
+              <span className="text-slate-700 font-bold text-sm">+{levelReward}</span>
+            </div>
+
+            <div className="h-px bg-slate-100 my-2" />
+
+            <div className="flex justify-between items-center">
+              <span className="text-indigo-600 font-black text-lg uppercase tracking-tight">总得分</span>
+              <span className="text-indigo-600 font-black text-2xl tracking-tighter">{finalScore}</span>
+            </div>
           </div>
-          </>
+        </>
       ) : (
         <>
           <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mb-4">
@@ -76,7 +112,7 @@ const GameOverScreen: React.FC<GameOverScreenProps> = ({
         </button>
         <button
           onClick={onBackToMenu}
-          className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors mt-2"
+          className="text-xs font-black text-slate-400 uppercase tracking-widest hover:text-slate-600 transition-colors mt-2"
         >
           返回主菜单
         </button>

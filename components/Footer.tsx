@@ -45,7 +45,7 @@ const Footer: React.FC<FooterProps> = ({
           {shuffles > 0 && <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-indigo-500 text-white text-[8px] font-black rounded-full flex items-center justify-center">{shuffles}</span>}
         </div>
         <div className="text-left">
-          <div className="text-[10px] font-black text-slate-800">重排</div>
+          <div className="text-[10px] font-black text-slate-800">洗牌</div>
         </div>
       </button>
     </div>

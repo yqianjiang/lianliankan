@@ -137,20 +137,25 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
+        .rows-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
         .card {
             background: white;
             padding: 2rem;
             border-radius: 1.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             border: 1px solid #f1f5f9;
+            font-size: 0.875rem;
         }
         .card h3 {
             margin-top: 0;
             color: #1e293b;
             font-size: 1rem;
-        }
-        .card p {
-            font-size: 0.875rem;
+            margin-bottom: 0.2rem;
+            font-weight: 600;
         }
         .games-grid {
             display: grid;
@@ -232,9 +237,36 @@
                     <li>图案必须在水平或垂直方向上连接，不能对角线连接。</li>
                     <li>消除所有图案即可过关。</li>
                     <li>游戏支持多种主题和难度级别，适合不同年龄段的玩家。</li>
-                    <li>可以使用提示和重排功能来帮助完成关卡。</li>
+                    <li>可以使用提示和洗牌功能来帮助完成关卡。</li>
                 </ul>
                 <p style="margin-top: 1.5rem; color: #64748b; font-size: 0.875rem;">这款游戏完全免费，无需下载，打开浏览器即可开始游戏。支持手机和平板设备，随时随地享受乐趣。</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>连连看计分说明</h2>
+            <div class="rows-layout">
+                <div class="card">
+                    <h3>基础得分规则</h3>
+                    <p>每成功消除一对相同的图案，你将获得 <strong>10分</strong> 的基础得分。</p>
+                </div>
+                <div class="card">
+                    <h3>连消奖励 (Combo)</h3>
+                    <p>展现你的极速反应！如果你能在 <strong>3秒内连续消除</strong> 多对图案，将触发连消奖励。连消次数越多，额外获得的加分就越高（每次成功连消都会累加额外奖励分）。</p>
+                </div>
+                <div class="card">
+                    <h3>关卡结算加分</h3>
+                    <p>成功过关后，系统会根据你的表现进行额外加分：</p>
+                    <ul style="list-style: none; padding: 0; margin-top: 10px;">
+                        <li>• <strong>剩余道具：</strong>每个未使用的提示或洗牌道具奖励 <strong>50分</strong>。</li>
+                        <li>• <strong>剩余时间：</strong>每剩余 1 秒时间奖励 <strong>10分</strong>。</li>
+                        <li>• <strong>过关奖励：</strong>每一关都有固定奖分（关卡序号 × <strong>100分</strong>）。</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>最高分记录</h3>
+                    <p>系统会自动记录每个难度的最高分。挑战自我，刷新你的历史最佳成绩吧！</p>
+                </div>
             </div>
         </section>
 

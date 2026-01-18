@@ -55,7 +55,7 @@ const StartScreen: React.FC<StartScreenProps> = ({
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {LEVELS.map(l => {
-              const best = stats.bestTimes[l.id];
+              const bestScore = stats.highScores[l.id];
               return (
                 <button
                   key={l.id}
@@ -64,12 +64,12 @@ const StartScreen: React.FC<StartScreenProps> = ({
                 >
                   <div className="flex justify-between items-start">
                     <div className="font-black text-slate-800 text-sm group-hover:text-indigo-600">{l.name}</div>
-                    {best !== undefined && <Medal size={14} className="text-yellow-500" />}
+                    {bestScore !== undefined && <Medal size={14} className="text-yellow-500" />}
                   </div>
                   <div className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">{l.cols}x{l.rows}</div>
-                  {best !== undefined && (
+                  {bestScore !== undefined && (
                     <div className="mt-1 text-[10px] font-black text-indigo-500 bg-indigo-50 inline-block px-1.5 py-0.5 rounded">
-                      记录: {formatTime(best)}
+                      最高分: {bestScore}
                     </div>
                   )}
                 </button>

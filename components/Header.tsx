@@ -7,6 +7,7 @@ interface HeaderProps {
   score: number;
   timeLeft: number;
   currentLevel: Level;
+  comboCount: number;
   onPauseToggle: () => void;
   onSettings: () => void;
   formatTime: (seconds: number) => string;
@@ -17,6 +18,7 @@ const Header: React.FC<HeaderProps> = ({
   score,
   timeLeft,
   currentLevel,
+  comboCount,
   onPauseToggle,
   onSettings,
   formatTime
@@ -26,10 +28,17 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <div className="w-full max-w-2xl h-20 shrink-0 flex items-center mb-2">
       <div className="w-full flex justify-between items-center bg-white/80 backdrop-blur-md p-3 sm:p-4 rounded-2xl shadow-sm border border-white/50 animate-in fade-in duration-300">
-        <div className="flex flex-col">
+        <span className="text-lg font-medium text-slate-500">{currentLevel.name}</span>
+        <div className="flex flex-col relative">
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">得分</span>
-          <span className="text-xl sm:text-2xl font-black text-slate-800 leading-none">{score}</span>
-          <span className="text-[8px] font-medium text-slate-500">{currentLevel.name}</span>
+          <div className="flex items-baseline gap-2">
+            <span className="text-xl sm:text-2xl font-black text-slate-800 leading-none">{score}</span>
+            {comboCount > 1 && (
+              <span className="text-sm font-black text-orange-500 animate-bounce">
+                Combo x{comboCount}
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col items-center">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { TileData, Position, ConnectionPath, GameStatus } from '../types';
 import { isSamePosition } from '../services/gameLogic';
+import { TILE_COLORS } from '../constants';
 
 interface GameBoardProps {
   grid: (TileData | null)[][];
@@ -9,6 +10,7 @@ interface GameBoardProps {
   hintedPair: [Position, Position] | null;
   wrongPair: [Position, Position] | null;
   connection: ConnectionPath | null;
+  comboCount: number;
   onTileClick: (pos: Position) => void;
 }
 
@@ -19,6 +21,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   hintedPair,
   wrongPair,
   connection,
+  comboCount,
   onTileClick
 }) => {
   if (status !== GameStatus.PLAYING && status !== GameStatus.PAUSED) return null;
@@ -42,6 +45,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
           const isSelected = selected && isSamePosition(selected, {x, y});
           const isHinted = hintedPair && (isSamePosition(hintedPair[0], {x, y}) || isSamePosition(hintedPair[1], {x, y}));
           const isWrong = wrongPair && (isSamePosition(wrongPair[0], {x, y}) || isSamePosition(wrongPair[1], {x, y}));
+          
+          const baseBg = tile?.type === 'emoji' ? (TILE_COLORS[tile.value] || 'bg-white') : 'bg-transparent';
+          const tileBg = isWrong ? 'bg-red-50' : baseBg;
 
           return (
             <div
@@ -54,13 +60,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
             >
               <div className={`
                 w-full h-full flex items-center justify-center rounded-md sm:rounded-xl overflow-hidden
-                ${!tile ? '' : 'bg-white shadow-sm border border-white hover:shadow-md active:scale-90'}
-                ${isSelected ? 'ring-2 sm:ring-4 ring-indigo-500 ring-offset-1 z-10 scale-110' : ''}
+                ${!tile ? '' : `${tileBg} shadow-sm border border-white/50 hover:shadow-md active:scale-90`}
+                ${isSelected ? 'ring-2 sm:ring-4 ring-indigo-500 ring-offset-1 z-10 scale-110 shadow-lg' : ''}
                 ${isHinted ? 'animate-bounce ring-2 sm:ring-4 ring-yellow-400 z-10 shadow-lg' : ''}
-                ${isWrong ? 'ring-2 sm:ring-4 ring-red-500 z-10 tile-wrong bg-red-50' : ''}
+                ${isWrong ? 'ring-2 sm:ring-4 ring-red-500 z-10 tile-wrong' : ''}
               `}>
                 {tile?.type === 'emoji' ? (
-                  <span className="text-xl sm:text-2xl">{tile.value}</span>
+                  <span className="text-xl sm:text-2xl drop-shadow-sm">{tile.value}</span>
                 ) : tile?.value && (
                   <img src={tile.value} className="w-full h-full object-cover" />
                 )}
@@ -85,13 +91,30 @@ const GameBoard: React.FC<GameBoardProps> = ({
               return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
             }).join(' ')}
             fill="none"
-            stroke="rgb(99, 102, 241)"
-            strokeWidth="0.12"
+            stroke={comboCount > 1 ? "#f59e0b" : "rgb(99, 102, 241)"}
+            strokeWidth={comboCount > 1 ? "0.2" : "0.12"}
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="animate-pulse"
+            className={comboCount > 1 ? "animate-rainbow" : "animate-pulse"}
           />
         </svg>
+      )}
+
+      {/* Combo Indicator */}
+      {comboCount > 1 && (
+        <div 
+          key={comboCount}
+          className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none select-none"
+        >
+          <div className="animate-combo flex flex-col items-center">
+             <span className="text-4xl sm:text-6xl font-black text-indigo-600/90 drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)] italic">
+               COMBO
+             </span>
+             <span className="text-5xl sm:text-7xl font-black text-orange-500 drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)] -mt-3">
+               x{comboCount}
+             </span>
+          </div>
+        </div>
       )}
     </div>
   );

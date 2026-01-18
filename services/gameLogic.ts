@@ -105,6 +105,7 @@ export const findAvailablePair = (grid: (TileData | null)[][]): [Position, Posit
 
   for (let i = 0; i < tiles.length; i++) {
     for (let j = i + 1; j < tiles.length; j++) {
+      // 暴力法对比所有相同图案，判断是否能连通，返回第一对
       if (tiles[i].value === tiles[j].value) {
         if (findPath(grid, tiles[i].pos, tiles[j].pos)) {
           return [tiles[i].pos, tiles[j].pos];

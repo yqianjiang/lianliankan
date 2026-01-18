@@ -43,5 +43,5 @@ export interface ConnectionPath {
 
 export interface GameStats {
   totalGames: number;
-  bestTimes: Record<string, number>; // levelId -> seconds
+  highScores: Record<string, number>; // levelId -> score
 }
