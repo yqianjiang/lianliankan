@@ -104,13 +104,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
       {comboCount > 1 && (
         <div 
           key={comboCount}
-          className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none select-none"
+          className="absolute top-4 sm:top-6 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none select-none"
         >
           <div className="animate-combo flex flex-col items-center">
-             <span className="text-4xl sm:text-6xl font-black text-indigo-600/90 drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)] italic">
+             <span className="text-2xl sm:text-4xl font-black text-indigo-600/90 drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)] italic">
                COMBO
              </span>
-             <span className="text-5xl sm:text-7xl font-black text-orange-500 drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)] -mt-3">
+             <span className="text-3xl sm:text-6xl font-black text-orange-500 drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)] -mt-3">
                x{comboCount}
              </span>
           </div>
