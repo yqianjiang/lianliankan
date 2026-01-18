@@ -17,6 +17,7 @@ export const useGameLogic = () => {
   const [selected, setSelected] = useState<Position | null>(null);
   const [connection, setConnection] = useState<ConnectionPath | null>(null);
   const [hintedPair, setHintedPair] = useState<[Position, Position] | null>(null);
+  const [wrongPair, setWrongPair] = useState<[Position, Position] | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [stats, setStats] = useState<GameStats>({ totalGames: 0, bestTimes: {} });
   const [isNewRecord, setIsNewRecord] = useState(false);
@@ -122,7 +123,7 @@ export const useGameLogic = () => {
   }, [status]);
 
   const handleTileClick = (pos: Position) => {
-    if (status !== GameStatus.PLAYING) return;
+    if (status !== GameStatus.PLAYING || wrongPair) return;
     const tile = grid[pos.y][pos.x];
     if (!tile) return;
 
@@ -160,10 +161,20 @@ export const useGameLogic = () => {
           }
         }, 300);
       } else {
-        setSelected(pos);
+        // Same value but no valid path
+        setWrongPair([selected, pos]);
+        setSelected(null);
+        setTimeout(() => {
+          setWrongPair(null);
+        }, 500);
       }
     } else {
-      setSelected(pos);
+      // Different values
+      setWrongPair([selected, pos]);
+      setSelected(null);
+      setTimeout(() => {
+        setWrongPair(null);
+      }, 500);
     }
   };
 
@@ -223,6 +234,7 @@ export const useGameLogic = () => {
     selected,
     connection,
     hintedPair,
+    wrongPair,
     isMobile,
     stats,
     isNewRecord,

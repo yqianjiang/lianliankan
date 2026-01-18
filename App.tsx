@@ -67,6 +67,7 @@ const App: React.FC = () => {
           status={gameLogic.status}
           selected={gameLogic.selected}
           hintedPair={gameLogic.hintedPair}
+          wrongPair={gameLogic.wrongPair}
           connection={gameLogic.connection}
           isMobile={gameLogic.isMobile}
           onTileClick={gameLogic.handleTileClick}

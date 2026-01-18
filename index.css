@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@tailwind utilities;
+
+body {
+    font-family: 'Inter', sans-serif;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    overflow: hidden;
+}
+@keyframes fade-out {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(1.2); }
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-4px); }
+    40% { transform: translateX(4px); }
+    60% { transform: translateX(-2px); }
+    80% { transform: translateX(2px); }
+}
+.tile-matched {
+    animation: fade-out 0.3s forwards;
+}
+.tile-wrong {
+    animation: shake 0.4s ease-in-out;
+}

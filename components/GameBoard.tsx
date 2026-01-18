@@ -7,6 +7,7 @@ interface GameBoardProps {
   status: GameStatus;
   selected: Position | null;
   hintedPair: [Position, Position] | null;
+  wrongPair: [Position, Position] | null;
   connection: ConnectionPath | null;
   isMobile: boolean;
   onTileClick: (pos: Position) => void;
@@ -17,6 +18,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
   status,
   selected,
   hintedPair,
+  wrongPair,
   connection,
   isMobile,
   onTileClick
@@ -34,6 +36,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         {grid.map((row, y) => row.map((tile, x) => {
           const isSelected = selected && isSamePosition(selected, {x, y});
           const isHinted = hintedPair && (isSamePosition(hintedPair[0], {x, y}) || isSamePosition(hintedPair[1], {x, y}));
+          const isWrong = wrongPair && (isSamePosition(wrongPair[0], {x, y}) || isSamePosition(wrongPair[1], {x, y}));
 
           return (
             <div
@@ -44,6 +47,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 ${!tile ? 'opacity-0 pointer-events-none' : 'bg-white shadow-sm border border-white hover:shadow-md active:scale-90'}
                 ${isSelected ? 'ring-2 sm:ring-4 ring-indigo-500 ring-offset-1 z-10 scale-110' : ''}
                 ${isHinted ? 'animate-bounce ring-2 sm:ring-4 ring-yellow-400 z-10 shadow-lg' : ''}
+                ${isWrong ? 'ring-2 sm:ring-4 ring-red-500 z-10 tile-wrong bg-red-50' : ''}
               `}
             >
               {tile?.type === 'emoji' ? (
