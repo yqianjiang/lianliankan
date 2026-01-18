@@ -27,11 +27,15 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const rows = grid.length;
 
   return (
-    <div className="relative w-full max-w-[min(95vw,600px)] mx-auto">
+    <div 
+      className="relative w-full max-w-[min(95vw,600px)] mx-auto"
+      style={{ aspectRatio: `${cols}/${rows}` }}
+    >
       <div
-        className="grid gap-0"
+        className="grid w-full h-full gap-0"
         style={{
-          gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`
+          gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+          gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`
         }}
       >
         {grid.map((row, y) => row.map((tile, x) => {
@@ -72,6 +76,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
           className="absolute inset-0 pointer-events-none z-20"
           viewBox={`0 0 ${cols} ${rows}`}
           style={{ width: '100%', height: '100%' }}
+          preserveAspectRatio="none"
         >
           <path
             d={connection.points.map((p, i) => {

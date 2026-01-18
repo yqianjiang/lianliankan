@@ -63,5 +63,5 @@ export const THEMES: Theme[] = [
   // }
 ];
 
-export const INITIAL_HINTS = 30;
+export const INITIAL_HINTS = 10;
 export const INITIAL_SHUFFLES = 3;
