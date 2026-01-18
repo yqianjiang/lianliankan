@@ -7,7 +7,7 @@ interface FooterProps {
   hints: number;
   shuffles: number;
   onHint: () => void;
-  onShuffle: () => void;
+  onShuffle: (isAuto?: boolean) => void;
 }
 
 const Footer: React.FC<FooterProps> = ({
@@ -36,7 +36,7 @@ const Footer: React.FC<FooterProps> = ({
       </button>
 
       <button
-        onClick={onShuffle}
+        onClick={() => onShuffle(false)}
         disabled={shuffles === 0}
         className="flex items-center justify-center gap-2 p-3 bg-white rounded-xl shadow-sm border border-white hover:bg-slate-50 transition-all active:scale-95 disabled:opacity-50"
       >
