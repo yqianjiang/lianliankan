@@ -18,7 +18,6 @@ export const useGameLogic = () => {
   const [connection, setConnection] = useState<ConnectionPath | null>(null);
   const [hintedPair, setHintedPair] = useState<[Position, Position] | null>(null);
   const [wrongPair, setWrongPair] = useState<[Position, Position] | null>(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [stats, setStats] = useState<GameStats>({ totalGames: 0, bestTimes: {} });
   const [isNewRecord, setIsNewRecord] = useState(false);
 
@@ -235,7 +234,6 @@ export const useGameLogic = () => {
     connection,
     hintedPair,
     wrongPair,
-    isMobile,
     stats,
     isNewRecord,
 

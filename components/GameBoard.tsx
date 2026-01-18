@@ -9,7 +9,6 @@ interface GameBoardProps {
   hintedPair: [Position, Position] | null;
   wrongPair: [Position, Position] | null;
   connection: ConnectionPath | null;
-  isMobile: boolean;
   onTileClick: (pos: Position) => void;
 }
 
@@ -20,17 +19,19 @@ const GameBoard: React.FC<GameBoardProps> = ({
   hintedPair,
   wrongPair,
   connection,
-  isMobile,
   onTileClick
 }) => {
   if (status !== GameStatus.PLAYING && status !== GameStatus.PAUSED) return null;
 
+  const cols = grid[0]?.length || 0;
+  const rows = grid.length;
+
   return (
-    <>
+    <div className="relative w-full max-w-[min(95vw,600px)] mx-auto">
       <div
-        className="grid gap-0.5 sm:gap-2"
+        className="grid gap-0"
         style={{
-          gridTemplateColumns: `repeat(${grid[0]?.length || 0}, minmax(0, 1fr))`
+          gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`
         }}
       >
         {grid.map((row, y) => row.map((tile, x) => {
@@ -43,18 +44,23 @@ const GameBoard: React.FC<GameBoardProps> = ({
               key={tile?.id || `empty-${x}-${y}`}
               onClick={() => onTileClick({x, y})}
               className={`
-                aspect-square flex items-center justify-center rounded-md sm:rounded-xl cursor-pointer select-none transition-all duration-200 overflow-hidden size-11 md:size-14
-                ${!tile ? 'opacity-0 pointer-events-none' : 'bg-white shadow-sm border border-white hover:shadow-md active:scale-90'}
+                aspect-square p-0.5 sm:p-1 cursor-pointer select-none transition-all duration-200
+                ${!tile ? 'opacity-0 pointer-events-none' : ''}
+              `}
+            >
+              <div className={`
+                w-full h-full flex items-center justify-center rounded-md sm:rounded-xl overflow-hidden
+                ${!tile ? '' : 'bg-white shadow-sm border border-white hover:shadow-md active:scale-90'}
                 ${isSelected ? 'ring-2 sm:ring-4 ring-indigo-500 ring-offset-1 z-10 scale-110' : ''}
                 ${isHinted ? 'animate-bounce ring-2 sm:ring-4 ring-yellow-400 z-10 shadow-lg' : ''}
                 ${isWrong ? 'ring-2 sm:ring-4 ring-red-500 z-10 tile-wrong bg-red-50' : ''}
-              `}
-            >
-              {tile?.type === 'emoji' ? (
-                <span className="text-2xl">{tile.value}</span>
-              ) : tile?.value && (
-                <img src={tile.value} className="w-full h-full object-cover" />
-              )}
+              `}>
+                {tile?.type === 'emoji' ? (
+                  <span className="text-xl sm:text-2xl">{tile.value}</span>
+                ) : tile?.value && (
+                  <img src={tile.value} className="w-full h-full object-cover" />
+                )}
+              </div>
             </div>
           );
         }))}
@@ -64,27 +70,25 @@ const GameBoard: React.FC<GameBoardProps> = ({
       {connection && (
         <svg
           className="absolute inset-0 pointer-events-none z-20"
-          viewBox={`0 0 ${grid[0].length * (isMobile ? 36 : 64)} ${grid.length * (isMobile ? 36 : 64)}`}
-          style={{ width: '100%', height: '100%', transform: isMobile ? 'translate(4px, 4px)' : 'translate(8px, 8px)' }}
+          viewBox={`0 0 ${cols} ${rows}`}
+          style={{ width: '100%', height: '100%' }}
         >
           <path
             d={connection.points.map((p, i) => {
-              const tileSize = isMobile ? 36 : 64;
-              const half = tileSize / 2;
-              const x = p.x * tileSize + half - (isMobile ? 4 : 8);
-              const y = p.y * tileSize + half - (isMobile ? 4 : 8);
+              const x = p.x + 0.5;
+              const y = p.y + 0.5;
               return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
             }).join(' ')}
             fill="none"
             stroke="rgb(99, 102, 241)"
-            strokeWidth="5"
+            strokeWidth="0.12"
             strokeLinecap="round"
             strokeLinejoin="round"
             className="animate-pulse"
           />
         </svg>
       )}
-    </>
+    </div>
   );
 };
 

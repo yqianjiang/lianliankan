@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Theme } from './types';
+import { GameStatus, Theme } from './types';
 import { useGameLogic } from './hooks/useGameLogic';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -42,20 +42,7 @@ const App: React.FC = () => {
             onLevelSelect={handleLevelSelect}
             formatTime={gameLogic.formatTime}
           />
-        ) : <>
-        <div className="relative p-1.5 sm:p-5 bg-slate-200/20 rounded-3xl sm:rounded-[2.5rem] border-2 sm:border-4 border-white/60 shadow-inner overflow-x-auto shrink-0 mx-3">
-          <GameOverScreen
-            status={gameLogic.status}
-            currentLevel={gameLogic.currentLevel}
-            score={gameLogic.score}
-            timeLeft={gameLogic.timeLeft}
-            levelTime={gameLogic.currentLevel.time}
-            isNewRecord={gameLogic.isNewRecord}
-            onNextLevel={gameLogic.handleNextLevel}
-            onRestart={() => gameLogic.initGame()}
-            onBackToMenu={() => gameLogic.setStatus('IDLE')}
-            formatTime={gameLogic.formatTime}
-          />
+        ) :  gameLogic.status !== GameStatus.WON && gameLogic.status !== GameStatus.LOST ? <div className="w-full sm:w-160 relative p-1.5 sm:p-5 bg-slate-200/20 rounded-3xl sm:rounded-[2.5rem] border-2 sm:border-4 border-white/60 shadow-inner">
             <PauseScreen
               status={gameLogic.status}
               onResume={() => gameLogic.setStatus('PLAYING')}
@@ -68,11 +55,21 @@ const App: React.FC = () => {
               hintedPair={gameLogic.hintedPair}
               wrongPair={gameLogic.wrongPair}
               connection={gameLogic.connection}
-              isMobile={gameLogic.isMobile}
               onTileClick={gameLogic.handleTileClick}
             />
-         </div>
-        </>
+         </div> : (
+          <GameOverScreen
+            status={gameLogic.status}
+            currentLevel={gameLogic.currentLevel}
+            score={gameLogic.score}
+            timeLeft={gameLogic.timeLeft}
+            levelTime={gameLogic.currentLevel.time}
+            isNewRecord={gameLogic.isNewRecord}
+            onNextLevel={gameLogic.handleNextLevel}
+            onRestart={() => gameLogic.initGame()}
+            onBackToMenu={() => gameLogic.setStatus('IDLE')}
+            formatTime={gameLogic.formatTime}
+          />)
         }
 
       </div>
