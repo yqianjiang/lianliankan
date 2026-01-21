@@ -61,8 +61,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
               <div className={`
                 w-full h-full flex items-center justify-center rounded-md sm:rounded-xl overflow-hidden
                 ${!tile ? '' : `${tileBg} shadow-sm border border-white/50 hover:shadow-md active:scale-90`}
-                ${isSelected ? 'ring-2 sm:ring-4 ring-indigo-500 ring-offset-1 z-10 scale-110 shadow-lg' : ''}
                 ${isHinted ? 'animate-bounce ring-2 sm:ring-4 ring-yellow-400 z-10 shadow-lg' : ''}
+                ${isSelected ? 'ring-2 sm:ring-4 ring-indigo-500 ring-offset-1 z-10 scale-110 shadow-lg' : ''}
                 ${isWrong ? 'ring-2 sm:ring-4 ring-red-500 z-10 tile-wrong' : ''}
               `}>
                 {tile?.type === 'emoji' ? (
